@@ -30,7 +30,8 @@ var log = function( text, isImportant ) {
 var async = require("async"),
 	traverse = require("traverse"),
 	wrench = require("wrench"),
-	fs = require("fs");
+	fs = require("fs"),
+	getBaseName = require("path").basename;
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -59,9 +60,12 @@ Mover.prototype.move = function() {
 	// We need to create an array of the output files, so that we can
 	// use async to iterate through it
 	for( var iFile in outputMap ) {
+		var input = strPrepend + iFile,
+			output = strPrepend + outputMap[iFile];
+
 		var fileMapping = {
-			input : strPrepend + iFile,
-			output : strPrepend + outputMap[iFile]
+			input : input,
+			output : output
 		}
 
 		outputArray.push( fileMapping );
@@ -132,7 +136,11 @@ function copyFile(source, target, cb) {
 	});
 
 	function write() {
-		var wr = fs.createWriteStream(target);
+		var outputFilePath = target + "/" + getBaseName(source);
+		
+		log("Writing " + outputFilePath );
+
+		var wr = fs.createWriteStream(outputFilePath);
 		wr.on( "error", function(err) {
 			done(err);
 		});
@@ -167,11 +175,12 @@ function copyFile(source, target, cb) {
 
 		// Create the directory
 		wrench.mkdirSyncRecursive( target, function(error) {
-			if( error === null ) {
-				write();
-			} else { 
+			if( error != null ) {
 				log(error); 
 			}
 		});
+
+		// We successfully created the dir, now write the file
+		write();
 	}
 } // end copyFile
