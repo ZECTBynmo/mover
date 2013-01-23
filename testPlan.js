@@ -5,7 +5,6 @@ var plan = {
 		"depth2": {
 			files: [
 				"LICENSE",
-				"mover.js",
 			],
 			
 			"depth3" : {
