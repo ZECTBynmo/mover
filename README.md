@@ -36,10 +36,10 @@ Once you've constructed a plan, you can start moving files around. Here's an exa
 var plan = require("./movingPlan").plan,
 	mover = require("mover").createMover();
 
-// Set our mover's plan using relative input paths (the second argument)
-mover.setPlan( plan, true );
+// Setup our mover
+mover.setPlan( plan, false );		// Use absolute paths
+mover.setDest( process.cwd() );		// Set our destination folder
 
-// Do all the moving
 mover.move( function() {
 	console.log( "All moved in" );
 });

@@ -1,8 +1,9 @@
 var plan = require("./testplan").plan,
-	mover = require("./mover").createMover();
+	mover = require("./mover").createMover();	// .createMover([plan], [isRelativePaths], [dest])
 
-// Set our mover's plan using relative input paths
-mover.setPlan( plan, true );
+// Setup our mover
+mover.setPlan( plan, false );		// Use absolute paths
+mover.setDest( process.cwd() );		// Set our destination folder
 
 mover.move( function() {
 	console.log( "All moved in" );

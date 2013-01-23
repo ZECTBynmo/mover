@@ -41,7 +41,9 @@ var async = require("async"),
 function Mover( plan, isRelativePaths, dest ) {
 	this.plan = plan || {};
 	this.dest = dest || process.cwd();
-	this.isRelativePaths = isRelativePaths || false;
+
+	this.isRelativePaths = isRelativePaths || false;	// True when our input  
+														// paths are relative
 } // end Mover()
 
 
@@ -64,7 +66,7 @@ Mover.prototype.setDest = function( dest ) {
 // Move all the things
 Mover.prototype.move = function( callback ) {
 	var outputMap = this.getOutputMap(),
-		strPrepend = this.isRelativePaths ? process.cwd() + "/" : "",
+		strPrepend = this.isRelativePaths ? process.cwd() + "/" : this.dest + "/",
 		outputArray = [];
 
 	// We need to create an array of the output files, so that we can
@@ -99,6 +101,9 @@ Mover.prototype.getOutputMap = function() {
 	// Traverse the plan object and find all of the possible paths
 	var paths = traverse(this.plan).paths(),
 		outputMap = {};
+
+	console.log("PATHS");
+	console.log(paths);
 
 	for( var iPath = 0; iPath < paths.length; ++iPath ) {
 		var thisPath = paths[iPath],
@@ -139,8 +144,8 @@ function copyFile(source, target, cb) {
 		cbCalled = false;
 
 	// Assume that our intput file exists
-	var rd = fs.createReadStream( source );
-	rd.on( "error", function(err) {
+	var readStream = fs.createReadStream( source );
+	readStream.on( "error", function(err) {
 		done(err);
 	});
 
@@ -156,9 +161,8 @@ function copyFile(source, target, cb) {
 		wr.on( "close", function(ex) {
 			done();
 		});
-		rd.pipe( wr );
+		readStream.pipe( wr );
 	}
-	
 
 	function done(err) {
 		log( err );
