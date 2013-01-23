@@ -86,6 +86,8 @@ Mover.prototype.move = function( callback ) {
 		copyFile( fileMapping.input, fileMapping.output, callback );
 	}
 
+	log( "Moving Files", true );
+
 	async.mapSeries( outputArray, fnIterator, callback);
 } // end move()
 
