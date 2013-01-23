@@ -1,0 +1,33 @@
+{
+  "name": "mover",
+  "version": "0.0.1",
+  "author": "Mike Vegeto <michael.vegeto@gmail.com>",
+  "description": "Takes files from one place and puts them in another place",
+  "main": "./mover",
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "keywords": [
+    "move",
+    "mapping",
+    "place",
+    "files",
+    "boilerplate",
+    "mover"
+  ],
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://raw.github.com/ZECTBynmo/mover/master/LICENSE"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/ZECTBynmo/mover.git"
+  },
+  "dependencies": {
+    "traverse": "~0.6.3",
+    "async": "~0.1.22",
+    "wrench": "~1.4.4"
+  }
+}
