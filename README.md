@@ -1,0 +1,1 @@
+This module takes files from one place and moves (copies) them into another place.
