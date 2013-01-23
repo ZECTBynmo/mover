@@ -8,13 +8,11 @@ var plan = {
 				"mover.js",
 			],
 			
-
 			"depth3" : {
 				files: [
 					"package.json",
 					"mover.js"
 				]
-
 			}
 		}
 	}
