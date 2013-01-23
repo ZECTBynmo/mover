@@ -54,7 +54,7 @@ Mover.prototype.setPlan = function( plan, isRelativePaths ) {
 // Move all the things
 Mover.prototype.move = function() {
 	var outputMap = this.getOutputMap(),
-		strPrepend = this.isRelativePaths ? __dirname + "/" : "",
+		strPrepend = this.isRelativePaths ? process.cwd() + "/" : "",
 		outputArray = [];
 
 	// We need to create an array of the output files, so that we can
