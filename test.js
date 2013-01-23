@@ -4,4 +4,6 @@ var plan = require("./testplan").plan,
 // Set our mover's plan using relative input paths
 mover.setPlan( plan, true );
 
-mover.move();
+mover.move( function() {
+	console.log( "All moved in" );
+});

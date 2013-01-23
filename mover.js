@@ -12,7 +12,9 @@
 */
 //////////////////////////////////////////////////////////////////////////
 // Node.js Exports
-exports.createMover = function() { return new Mover(); }
+exports.createMover = function( plan, isRelativePaths, dest ) { 
+	return new Mover( plan, isRelativePaths, dest ); 
+}
 
 //////////////////////////////////////////////////////////////////////////
 // Namespace (lol)
@@ -36,8 +38,9 @@ var async = require("async"),
 
 //////////////////////////////////////////////////////////////////////////
 // Constructor
-function Mover( plan, isRelativePaths ) {
+function Mover( plan, isRelativePaths, dest ) {
 	this.plan = plan || {};
+	this.dest = dest || process.cwd();
 	this.isRelativePaths = isRelativePaths || false;
 } // end Mover()
 
@@ -51,8 +54,15 @@ Mover.prototype.setPlan = function( plan, isRelativePaths ) {
 
 
 //////////////////////////////////////////////////////////////////////////
+// Sets a new plan for this mover
+Mover.prototype.setDest = function( dest ) {
+	this.dest = dest;
+} // end setPlan()
+
+
+//////////////////////////////////////////////////////////////////////////
 // Move all the things
-Mover.prototype.move = function() {
+Mover.prototype.move = function( callback ) {
 	var outputMap = this.getOutputMap(),
 		strPrepend = this.isRelativePaths ? process.cwd() + "/" : "",
 		outputArray = [];
@@ -71,15 +81,12 @@ Mover.prototype.move = function() {
 		outputArray.push( fileMapping );
 	}
 
-	function fnIterator( fileMapping, callback ) { 
-		log( "Moving stuff" );
+	function fnIterator( fileMapping, callback ) {
 		log( fileMapping );
 		copyFile( fileMapping.input, fileMapping.output, callback );
 	}
 
-	async.mapSeries( outputArray, fnIterator, function() {
-		log( "All done!" );
-	});
+	async.mapSeries( outputArray, fnIterator, callback);
 } // end move()
 
 

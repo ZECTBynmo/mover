@@ -40,7 +40,9 @@ var plan = require("./movingPlan").plan,
 mover.setPlan( plan, true );
 
 // Do all the moving
-mover.move();
+mover.move( function() {
+	console.log( "All moved in" );
+});
 ```
 
 Try running "node test.js" inside the project directory to test things out :)
