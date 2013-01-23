@@ -9,15 +9,13 @@ To use mover, you need to setup a moving plan. This is basically just an object 
 
 ```JavaScript
 var plan = {
-
-	"depth1": {
-
-		"depth2": {
+	"folder1": {
+		"folder2": {
 			files: [
 				"LICENSE",
-			],
-			
-			"depth3" : {
+			],	
+					
+			"folder3" : {
 				files: [
 					"package.json",
 					"mover.js"
@@ -35,8 +33,8 @@ NOTE: You can only move an input file to one output location. The plan will choo
 
 Once you've constructed a plan, you can start moving files around. Here's an exapmle of typical usage
 ```JavaScript
-var plan = require("./testplan").plan,
-	mover = require("./mover").createMover();
+var plan = require("./movingPlan").plan,
+	mover = require("mover").createMover();
 
 // Set our mover's plan using relative input paths (the second argument)
 mover.setPlan( plan, true );
