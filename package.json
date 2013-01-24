@@ -1,6 +1,6 @@
 {
   "name": "mover",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "author": "Mike Vegeto <michael.vegeto@gmail.com>",
   "description": "Takes files from one place and puts them in another place",
   "main": "./mover",
