@@ -84,6 +84,7 @@ Mover.prototype.move = function( callback ) {
 	}
 
 	function fnIterator( fileMapping, callback ) {
+		log( "\n" );
 		log( fileMapping );
 		copyFile( fileMapping.input, fileMapping.output, callback );
 	}
@@ -102,9 +103,6 @@ Mover.prototype.getOutputMap = function() {
 	var paths = traverse(this.plan).paths(),
 		outputMap = {};
 
-	console.log("PATHS");
-	console.log(paths);
-
 	for( var iPath = 0; iPath < paths.length; ++iPath ) {
 		var thisPath = paths[iPath],
 			isValidPath = false,
@@ -113,7 +111,7 @@ Mover.prototype.getOutputMap = function() {
 		// If this path contains the keyword "files", it must lead to
 		// an input file we're trying to move
 		for( var iItem = 0; iItem < thisPath.length; ++iItem ) {
-			if( thisPath[iItem] == "files" ) {
+			if( thisPath[iItem] == "files" && iItem == thisPath.length - 2 ) {
 				isValidPath = true;
 //				concatPath += "/";
 				break;
@@ -165,7 +163,9 @@ function copyFile(source, target, cb) {
 	}
 
 	function done(err) {
-		log( err );
+		if( err != undefined && err != null )
+			log( err );
+
 		if ( !cbCalled ) {
 		  	cb(err);
 		  	cbCalled = true;
