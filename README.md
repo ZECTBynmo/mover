@@ -14,7 +14,7 @@ var plan = {
 			files: [
 				"LICENSE",
 			],	
-					
+
 			"folder3" : {
 				files: [
 					"package.json",
@@ -38,11 +38,12 @@ var plan = require("./movingPlan").plan,
 
 // Setup our mover
 mover.setPlan( plan, false );		// Use absolute paths
-mover.setDest( process.cwd() );		// Set our destination folder
+mover.setSrc( process.cwd() );		// Set our source folder (defaults to process.cwd())
+mover.setDest( process.cwd() );		// Set our destination folder (defaults to process.cwd())
 
 mover.move( function() {
 	console.log( "All moved in" );
 });
 ```
 
-Try running "node test.js" inside the project directory to test things out :)
+Try running "node test.js" inside the project directory. It will create some folders and copy some stuff around.

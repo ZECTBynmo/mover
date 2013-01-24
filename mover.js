@@ -12,8 +12,8 @@
 */
 //////////////////////////////////////////////////////////////////////////
 // Node.js Exports
-exports.createMover = function( plan, isRelativePaths, dest ) { 
-	return new Mover( plan, isRelativePaths, dest ); 
+exports.createMover = function( plan, isRelativePaths, src, dest ) { 
+	return new Mover( plan, isRelativePaths, src, dest ); 
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -38,10 +38,10 @@ var async = require("async"),
 
 //////////////////////////////////////////////////////////////////////////
 // Constructor
-function Mover( plan, isRelativePaths, dest ) {
+function Mover( plan, isRelativePaths, src, dest ) {
 	this.plan = plan || {};
 	this.dest = dest || process.cwd();
-
+	this.src = src || process.cwd();
 	this.isRelativePaths = isRelativePaths || false;	// True when our input  
 														// paths are relative
 } // end Mover()
@@ -56,9 +56,16 @@ Mover.prototype.setPlan = function( plan, isRelativePaths ) {
 
 
 //////////////////////////////////////////////////////////////////////////
-// Sets a new plan for this mover
+// Sets the location that we'll move our output files to
 Mover.prototype.setDest = function( dest ) {
 	this.dest = dest;
+} // end setPlan()
+
+
+//////////////////////////////////////////////////////////////////////////
+// Sets the place we're getting out input files
+Mover.prototype.setSrc = function( src ) {
+	this.src = src;
 } // end setPlan()
 
 
@@ -66,14 +73,14 @@ Mover.prototype.setDest = function( dest ) {
 // Move all the things
 Mover.prototype.move = function( callback ) {
 	var outputMap = this.getOutputMap(),
-		strPrepend = this.isRelativePaths ? process.cwd() + "/" : this.dest + "/",
+		destPath = this.isRelativePaths ? process.cwd() + "/" : this.dest + "/",
 		outputArray = [];
 
 	// We need to create an array of the output files, so that we can
 	// use async to iterate through it
 	for( var iFile in outputMap ) {
-		var input = strPrepend + iFile,
-			output = strPrepend + outputMap[iFile];
+		var input = this.src + "/" + iFile,
+			output = destPath + outputMap[iFile];
 
 		var fileMapping = {
 			input : input,
@@ -91,7 +98,7 @@ Mover.prototype.move = function( callback ) {
 
 	log( "Moving " + outputArray.length + " Files", true );
 
-	async.mapSeries( outputArray, fnIterator, callback);
+	async.forEach( outputArray, fnIterator, callback);
 } // end move()
 
 
