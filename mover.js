@@ -182,7 +182,7 @@ function copyFile(source, target, cb) {
 	// Do try catch to make sure that the folders exist (they might easily not)
 	try {
 	    // Query the entry
-	    stats = fs.lstatSync( target );
+	    var stats = fs.lstatSync( target );
 
 	    log( "Project folder " + target + " already exists" );
 
